@@ -60,7 +60,9 @@
 /* ===========================
    Reset & Base
    =========================== */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -87,7 +89,9 @@ a {
   transition: color var(--transition-fast);
 }
 
-ul { list-style: none; }
+ul {
+  list-style: none;
+}
 
 img {
   max-width: 100%;
@@ -383,6 +387,18 @@ img {
   text-transform: uppercase;
 }
 
+.hero-logo {
+  margin-bottom: var(--space-2xl);
+}
+
+.hero-logo-img {
+  max-width: 6000px;
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
 .hero-title {
   font-size: var(--font-size-hero);
   font-weight: 700;
@@ -475,13 +491,22 @@ img {
 .scroll-line {
   width: 1px;
   height: 48px;
-  background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), transparent);
   animation: scrollPulse 2.5s ease-in-out infinite;
 }
 
 @keyframes scrollPulse {
-  0%, 100% { opacity: 0.2; transform: scaleY(0.6); }
-  50% { opacity: 0.8; transform: scaleY(1); }
+
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: scaleY(0.6);
+  }
+
+  50% {
+    opacity: 0.8;
+    transform: scaleY(1);
+  }
 }
 
 /* Hero Animations — Apple-style: subtle, smooth */
@@ -491,14 +516,31 @@ img {
   animation: fadeInUp 1s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
 }
 
-.animate-in:nth-child(1) { animation-delay: 0.1s; }
-.animate-in:nth-child(2) { animation-delay: 0.25s; }
-.animate-in:nth-child(3) { animation-delay: 0.4s; }
-.animate-in:nth-child(4) { animation-delay: 0.55s; }
-.animate-in:nth-child(5) { animation-delay: 0.7s; }
+.animate-in:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.animate-in:nth-child(2) {
+  animation-delay: 0.25s;
+}
+
+.animate-in:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+.animate-in:nth-child(4) {
+  animation-delay: 0.55s;
+}
+
+.animate-in:nth-child(5) {
+  animation-delay: 0.7s;
+}
 
 @keyframes fadeInUp {
-  to { opacity: 1; transform: translateY(0); }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ===========================
@@ -539,7 +581,7 @@ img {
   box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
 }
 
-.service-card > * {
+.service-card>* {
   position: relative;
   z-index: 1;
 }
@@ -640,7 +682,7 @@ img {
   top: 0;
   bottom: 0;
   width: 1px;
-  background: linear-gradient(to bottom, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
 }
 
 .workflow-step {
@@ -1009,7 +1051,7 @@ img {
   background: rgba(255, 255, 255, 0.02);
 }
 
-.service-option input:checked + .option-card {
+.service-option input:checked+.option-card {
   border-color: var(--accent-blue);
   background: rgba(41, 151, 255, 0.08);
   box-shadow: 0 0 0 1px var(--accent-blue);
@@ -1030,8 +1072,15 @@ img {
 }
 
 @keyframes slideDown {
-  from { opacity: 0; transform: translateY(-8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Submit Button */
@@ -1059,7 +1108,9 @@ img {
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Success State */
@@ -1189,7 +1240,7 @@ img {
 .animate-on-scroll {
   opacity: 0;
   transform: translateY(30px) scale(0.98);
-  transition: 
+  transition:
     opacity 0.8s cubic-bezier(0.25, 0.1, 0.25, 1),
     transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
@@ -1212,7 +1263,7 @@ img {
   width: 80%;
   max-width: 800px;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.06), transparent);
 }
 
 /* ===========================
@@ -1227,7 +1278,7 @@ img {
 @media (max-width: 968px) {
   .services-grid {
     grid-template-columns: 1fr;
-    max-width: 600px;
+    max-width: 6000px;
     margin: 0 auto;
   }
 
@@ -1426,7 +1477,17 @@ img {
 }
 
 @keyframes floatOrb {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(20px, -30px) scale(1.05); }
-  66% { transform: translate(-15px, 20px) scale(0.95); }
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  33% {
+    transform: translate(20px, -30px) scale(1.05);
+  }
+
+  66% {
+    transform: translate(-15px, 20px) scale(0.95);
+  }
 }
