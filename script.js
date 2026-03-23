@@ -1,5 +1,6 @@
 /* ===========================
    Audio Waveform Canvas Animation
+   (Subtle, Apple-inspired)
    =========================== */
 class WaveAnimation {
   constructor(canvasId) {
@@ -23,36 +24,35 @@ class WaveAnimation {
   }
 
   initWaves() {
+    // Apple-style: muted blues and purples, fewer waves
     const colors = [
-      { r: 168, g: 85, b: 247 },   // purple
-      { r: 6, g: 182, b: 212 },     // cyan
-      { r: 124, g: 58, b: 237 },    // violet
-      { r: 8, g: 145, b: 178 },     // dark cyan
-      { r: 236, g: 72, b: 153 },    // pink
+      { r: 41, g: 151, b: 255 },    // blue
+      { r: 100, g: 160, b: 255 },   // light blue
+      { r: 191, g: 90, b: 242 },    // purple
     ];
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 3; i++) {
       this.waves.push({
-        amplitude: 30 + Math.random() * 40,
-        frequency: 0.005 + Math.random() * 0.01,
-        speed: 0.02 + Math.random() * 0.03,
+        amplitude: 20 + Math.random() * 25,
+        frequency: 0.003 + Math.random() * 0.005,
+        speed: 0.01 + Math.random() * 0.015,
         phase: Math.random() * Math.PI * 2,
         color: colors[i],
-        yOffset: 0.4 + (i * 0.05),
-        lineWidth: 1.5 + Math.random(),
+        yOffset: 0.42 + (i * 0.06),
+        lineWidth: 1 + Math.random() * 0.5,
       });
     }
   }
 
   initParticles() {
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 25; i++) {
       this.particles.push({
         x: Math.random() * this.canvas.width,
         y: Math.random() * this.canvas.height,
-        size: Math.random() * 2 + 0.5,
-        speedX: (Math.random() - 0.5) * 0.3,
-        speedY: (Math.random() - 0.5) * 0.3,
-        opacity: Math.random() * 0.4 + 0.1,
+        size: Math.random() * 1.5 + 0.3,
+        speedX: (Math.random() - 0.5) * 0.15,
+        speedY: (Math.random() - 0.5) * 0.15,
+        opacity: Math.random() * 0.2 + 0.05,
         pulse: Math.random() * Math.PI * 2,
       });
     }
@@ -63,14 +63,14 @@ class WaveAnimation {
     const { amplitude, frequency, speed, phase, color, yOffset, lineWidth } = wave;
 
     ctx.beginPath();
-    ctx.strokeStyle = `rgba(${color.r}, ${color.g}, ${color.b}, 0.15)`;
+    ctx.strokeStyle = `rgba(${color.r}, ${color.g}, ${color.b}, 0.08)`;
     ctx.lineWidth = lineWidth;
 
     const baseY = canvas.height * yOffset;
 
     for (let x = 0; x < canvas.width; x++) {
       const y = baseY + Math.sin(x * frequency + this.time * speed + phase) * amplitude
-        + Math.sin(x * frequency * 1.5 + this.time * speed * 0.7) * (amplitude * 0.3);
+        + Math.sin(x * frequency * 1.5 + this.time * speed * 0.7) * (amplitude * 0.2);
 
       if (x === 0) {
         ctx.moveTo(x, y);
@@ -80,12 +80,12 @@ class WaveAnimation {
     }
     ctx.stroke();
 
-    // Fill below wave with subtle gradient
+    // Subtle fill below wave
     ctx.lineTo(canvas.width, canvas.height);
     ctx.lineTo(0, canvas.height);
     ctx.closePath();
     const gradient = ctx.createLinearGradient(0, baseY - amplitude, 0, canvas.height);
-    gradient.addColorStop(0, `rgba(${color.r}, ${color.g}, ${color.b}, 0.03)`);
+    gradient.addColorStop(0, `rgba(${color.r}, ${color.g}, ${color.b}, 0.015)`);
     gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
     ctx.fillStyle = gradient;
     ctx.fill();
@@ -96,7 +96,7 @@ class WaveAnimation {
     this.particles.forEach(p => {
       p.x += p.speedX;
       p.y += p.speedY;
-      p.pulse += 0.02;
+      p.pulse += 0.015;
 
       // Wrap around
       if (p.x < 0) p.x = this.canvas.width;
@@ -107,7 +107,7 @@ class WaveAnimation {
       const opacity = p.opacity * (0.5 + Math.sin(p.pulse) * 0.5);
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(168, 85, 247, ${opacity})`;
+      ctx.fillStyle = `rgba(41, 151, 255, ${opacity})`;
       ctx.fill();
     });
   }
@@ -131,14 +131,14 @@ function animateCounters() {
   const counters = document.querySelectorAll('.stat-number[data-target]');
   counters.forEach(counter => {
     const target = parseInt(counter.dataset.target);
-    const duration = 2000;
+    const duration = 2500;
     const startTime = performance.now();
 
     function update(currentTime) {
       const elapsed = currentTime - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      // Ease out cubic
-      const eased = 1 - Math.pow(1 - progress, 3);
+      // Apple-style smooth ease-out
+      const eased = 1 - Math.pow(1 - progress, 4);
       counter.textContent = Math.round(target * eased);
 
       if (progress < 1) {
@@ -151,12 +151,12 @@ function animateCounters() {
 
 /* ===========================
    Scroll Animations (Intersection Observer)
+   Apple-style: scale + fade with stagger
    =========================== */
 function initScrollAnimations() {
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, index) => {
+    entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        // Staggered delay for grid items
         const delay = entry.target.dataset.delay || 0;
         setTimeout(() => {
           entry.target.classList.add('visible');
@@ -165,12 +165,12 @@ function initScrollAnimations() {
       }
     });
   }, {
-    threshold: 0.15,
-    rootMargin: '0px 0px -50px 0px',
+    threshold: 0.1,
+    rootMargin: '0px 0px -60px 0px',
   });
 
   document.querySelectorAll('.animate-on-scroll').forEach((el, i) => {
-    el.dataset.delay = (i % 4) * 100;
+    el.dataset.delay = (i % 4) * 120;
     observer.observe(el);
   });
 
@@ -189,25 +189,22 @@ function initScrollAnimations() {
 }
 
 /* ===========================
-   Navigation
+   Navigation — Apple-style floating pill
    =========================== */
 function initNavigation() {
   const navbar = document.getElementById('navbar');
   const navToggle = document.getElementById('navToggle');
   const navLinks = document.getElementById('navLinks');
 
-  // Scroll behavior
-  let lastScroll = 0;
+  // Scroll behavior — pill nav appears after scrolling
   window.addEventListener('scroll', () => {
     const currentScroll = window.scrollY;
 
-    if (currentScroll > 50) {
+    if (currentScroll > 80) {
       navbar.classList.add('scrolled');
     } else {
       navbar.classList.remove('scrolled');
     }
-
-    lastScroll = currentScroll;
   });
 
   // Mobile toggle
@@ -226,10 +223,10 @@ function initNavigation() {
     });
   });
 
-  // Active link highlighting
+  // Active link highlighting — subtle
   const sections = document.querySelectorAll('section[id]');
   window.addEventListener('scroll', () => {
-    const scrollY = window.scrollY + 100;
+    const scrollY = window.scrollY + 120;
     sections.forEach(section => {
       const top = section.offsetTop;
       const height = section.offsetHeight;
@@ -267,7 +264,6 @@ function initContactForm() {
 
   // Form validation & Submission
   form.addEventListener('submit', (e) => {
-    // HTML標準の画面遷移をブロックする（裏側で通信するため）
     e.preventDefault();
 
     let isValid = true;
@@ -305,7 +301,6 @@ function initContactForm() {
     }
 
     if (isValid) {
-      // ボタンを「送信中...」のローディング状態に変更
       const submitBtn = document.getElementById('submitBtn');
       const btnText = submitBtn.querySelector('.btn-text');
       const btnLoading = submitBtn.querySelector('.btn-loading');
@@ -314,16 +309,12 @@ function initContactForm() {
       btnLoading.style.display = 'inline-flex';
       submitBtn.disabled = true;
 
-      // Google reCAPTCHA v3 のトークン（人間である証明）を裏側で取得
-      // ※ '6LeXVYgsAAAAAKVdj9Tvd0UlGHY8hpxKeUqboFMX' を実際のものに書き換えること
       grecaptcha.ready(function() {
         grecaptcha.execute('6LeXVYgsAAAAAKVdj9Tvd0UlGHY8hpxKeUqboFMX', {action: 'submit'}).then(function(token) {
           
-          // フォームのデータを自動で収集し、取得したトークンを密かに追加
           const formData = new FormData(form);
           formData.append('g-recaptcha-response', token);
 
-          // Fetch APIを使ってFormspreeへ裏側からデータを送信
           fetch(form.action, {
             method: form.method,
             body: formData,
@@ -349,7 +340,6 @@ function initContactForm() {
             alert("通信エラーが発生しました。ネットワーク環境をご確認ください。");
           })
           .finally(() => {
-            // ボタンの状態を元に戻す
             btnText.style.display = 'inline-flex';
             btnLoading.style.display = 'none';
             submitBtn.disabled = false;
@@ -380,11 +370,9 @@ function initContactForm() {
 function initPricingButtons() {
   document.querySelectorAll('.pricing-card .btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
-      // Add visual feedback
       const card = btn.closest('.pricing-card');
       const planName = card.querySelector('.plan-name').textContent;
 
-      // Scroll to contact and pre-select service
       setTimeout(() => {
         const cardId = card.id;
         if (cardId.includes('mix')) {
@@ -406,22 +394,6 @@ function initPricingButtons() {
 }
 
 /* ===========================
-   Mouse Tracking Glow
-   =========================== */
-function initMouseGlow() {
-  const cards = document.querySelectorAll('.service-card, .pricing-card');
-  cards.forEach(card => {
-    card.addEventListener('mousemove', e => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      card.style.setProperty('--mouse-x', `${x}px`);
-      card.style.setProperty('--mouse-y', `${y}px`);
-    });
-  });
-}
-
-/* ===========================
    Initialization
    =========================== */
 document.addEventListener('DOMContentLoaded', () => {
@@ -433,5 +405,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavigation();
   initContactForm();
   initPricingButtons();
-  initMouseGlow();
+  // Mouse glow removed — Apple-style minimal
 });
